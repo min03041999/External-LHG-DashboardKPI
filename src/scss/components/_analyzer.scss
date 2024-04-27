@@ -1,0 +1,20 @@
+.analyzer-target {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &-actual {
+    @include font-size(40px);
+    font-weight: 700 !important;
+    line-height: 0 !important;
+    text-align: right;
+  }
+
+  &-purpose {
+    @include font-size(18px);
+    line-height: 1 !important;
+    font-weight: 600 !important;
+  }
+}

@@ -1,0 +1,48 @@
+.model-run {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  &-title {
+    font-weight: 600 !important;
+  }
+
+  &-text {
+    @include font-size(10px);
+    font-weight: 600 !important;
+  }
+
+  &-background {
+    box-sizing: border-box;
+    padding: 5px 10px;
+    background: linear-gradient(
+      90deg,
+      rgba(223, 49, 61, 0.2) 50%,
+      rgba(255, 255, 255, 1) 100%
+    );
+
+    .historical {
+      @include font-size(10px);
+      color: #912828;
+      font-weight: 600 !important;
+    }
+  }
+
+  th {
+    padding-right: 3px;
+    white-space: nowrap;
+    text-align: left;
+    vertical-align: baseline;
+  }
+
+  td {
+    border-left: 1px solid #000;
+    padding-left: 3px;
+  }
+
+  img {
+    width: 100%;
+    min-height: 50%;
+    object-fit: cover;
+  }
+}

@@ -1,0 +1,7 @@
+.title {
+  @include font-size(18px);
+
+  @media #{$info-bp-desktop-ultra} {
+    @include font-size(13px);
+  }
+}
