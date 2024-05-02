@@ -106,6 +106,9 @@ const DowntimeScreen = () => {
     screenHeight > 730 ? screenHeight / 3 - 90 : 300 - 90;
 
   const [t] = useTranslation("global");
+
+  // console.log(breakDownTime);
+
   return (
     <Box component={"div"} className="downtime-screen">
       <Box

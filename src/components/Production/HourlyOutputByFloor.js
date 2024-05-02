@@ -4,15 +4,26 @@ import Title from "../Title";
 import TableRowSpan from "../TableRowSpan";
 import { HEADER_TABLE } from "../../utils/enum";
 import { Box, CircularProgress } from "@mui/material";
+import { handleFakeTargetHourlyOutPutByLine } from "../../utils/helper";
 
 const HourlyOutputByFloor = (props) => {
-  const { customStyle, setHeightTable, header, data } = props;
+  const { customStyle, setHeightTable, header, floor, data } = props;
 
   // console.log(data);
   const hourlyOuput = useMemo(() => {
+    // return data?.map((item, index) => {
+    //   return {
+    //     target: Math.round(item.targetAssembly / 9),
+    //     line: item.lineAlias,
+    //     actual: item.actualAssembly,
+    //   };
+    // });
+
     return data?.map((item, index) => {
       return {
-        target: Math.round(item.targetAssembly / 9),
+        target: floor
+          ? handleFakeTargetHourlyOutPutByLine(item.lineAlias)
+          : Math.round(item.targetAssembly / 9),
         line: item.lineAlias,
         actual: item.actualAssembly,
       };

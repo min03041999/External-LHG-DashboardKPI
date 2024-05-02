@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Card from "../Card";
 import Title from "../Title";
 import LineLegendIcon from "../../icons/LineLegendIcon";
@@ -7,9 +7,6 @@ import LineActualIcon from "../../icons/LineActualIcon";
 
 import { IS_TARGET_EFF_RFT } from "../../utils/base";
 import LineTarget from "../LineTarget";
-
-import { handleFakeEff, handleFakeModel } from "../../utils/helper";
-import { OBJECT_TIME_RANGE } from "../../utils/times";
 
 import { useTranslation } from "react-i18next";
 
@@ -25,76 +22,25 @@ const EFFByTheHour = (props) => {
     setGetEFF,
   } = props;
   const [t] = useTranslation("global");
-
-  const effHours = useMemo(() => {
+  const [effHours, setEffHours] = useState([]);
+  useEffect(() => {
     const getDataLine = data?.find((item) => item.lineAlias === line);
 
     if (getDataLine) {
-      const { worker, shoesData, actualAssembly, actualStitching } =
-        getDataLine;
+      const { eff_assembly_line, eff_stitching_line } = getDataLine;
 
-      const workers =
-        section === "assembly" ? worker.assembly : worker.stitching;
+      const actual =
+        section === "assembly" ? eff_assembly_line : eff_stitching_line;
 
-      const laborCount =
-        shoesData && shoesData.length > 0
-          ? section === "assembly"
-            ? shoesData[0].assemblyLc
-            : shoesData[0].stitchingLc
-          : 0;
-
-      const actual = section === "assembly" ? actualAssembly : actualStitching;
-
-      const myArr = [];
-      const myKeys = Object.keys(OBJECT_TIME_RANGE);
-
-      // console.log(workers, actual, laborCount);
-      if (workers && actual && laborCount) {
-        // console.log(workers, actual, laborCount);
-        const keys = new Set(Object.keys(actual).slice(0, 9));
-        for (let key of myKeys) {
-          // Tinh Ideal Time
-          const idealTime = (actual[key] * laborCount) / 233;
-
-          const productionTime = workers;
-
-          //chi dung co khach hang
-          const effFake = parseFloat(
-            ((idealTime / productionTime) * 100).toFixed(2)
-          );
-
-          // myArr.push({
-          //   time: key,
-          //   actual:
-          //     keys.has(key) && productionTime !== 0
-          //       ? handleFakeEff(line, effFake)
-          //       : 0,
-          // });
-
-          //20240427
-          const { shoesName } = shoesData[0];
-
-          myArr.push({
-            time: key,
-            actual:
-              keys.has(key) && productionTime !== 0
-                ? handleFakeModel(shoesName)
-                : 0,
-          });
-          //20240427
-        }
-
-        return myArr;
-      }
+      setEffHours(actual);
     }
   }, [data, line, section]);
 
   useMemo(() => {
     const sum = effHours?.reduce((acc, value) => acc + (value?.actual || 0), 0);
     const count = effHours?.filter((value) => value?.actual !== 0).length;
-    // console.log(Math.round(sum / (count || 1)));
     setGetEFF(sum ? Math.round(sum / (count || 1)) : 0);
-  }, [effHours]);
+  }, [effHours, setGetEFF]);
 
   const transformed = effHours?.map((item) => {
     return {

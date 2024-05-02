@@ -7,8 +7,6 @@ import { Typography, Box } from "@mui/material";
 const AnalyzerTarget = (props) => {
   const { customStyle, header, type, target, data } = props;
 
-  console.log(type, data);
-
   return (
     <Card customStyle={customStyle}>
       <Box component={"div"} className="analyzer-target">

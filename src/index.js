@@ -11,6 +11,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import i18next from "i18next";
 import { I18nextProvider } from "react-i18next";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 import global_en from "./transtations/en/global.json";
 import global_tw from "./transtations/tw/global.json";
@@ -36,11 +38,13 @@ i18next.init({
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <Router>
-    <I18nextProvider i18n={i18next}>
-      <App />
-    </I18nextProvider>
-  </Router>
+  <Provider store={store}>
+    <Router>
+      <I18nextProvider i18n={i18next}>
+        <App />
+      </I18nextProvider>
+    </Router>
+  </Provider>
 );
 
 reportWebVitals();

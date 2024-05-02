@@ -13,10 +13,6 @@ const Top3Defect = (props) => {
   const { header, data, line, setHeightChart } = props;
   const [t] = useTranslation("global");
 
-  useEffect(() => {
-    console.log(data);
-  }, [data, line]);
-
   //   const colorDefectName = ["red", "darkgreen", "yellow", "lightgreen"];
   // const colorPieChart = ["#5dd15b", "#46583e", "#ced11e", "#f33434"];
   const colorDefectName = ["#fb4343", "#fb852e", "#ffce54", "#a0d468"];

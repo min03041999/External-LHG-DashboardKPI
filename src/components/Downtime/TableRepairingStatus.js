@@ -36,6 +36,21 @@ export default function TableRepairingStatus(props) {
     alignText,
   } = props;
 
+  const wrapText = (item, key) => {
+    if (key === "id_machine") {
+      let idMachine0 = item[key]?.split(" ")[0];
+      let idMachine1 = item[key]?.split(" ")[1];
+      // console.log(idMachine0, idMachine1);
+      return (
+        <span>
+          {idMachine0}
+          <br />
+          {idMachine1}
+        </span>
+      );
+    }
+    return <span>{item[key]}</span>;
+  };
   return (
     <TableContainer sx={{ width: "100%", height: height }}>
       <Table size="small" stickyHeader>
@@ -76,7 +91,7 @@ export default function TableRepairingStatus(props) {
                   }}
                 >
                   <Typography fontSize={12} fontWeight={"bold"}>
-                    {item[key]}
+                    {wrapText(item, key)}
                   </Typography>
                 </TableCell>
               ))}

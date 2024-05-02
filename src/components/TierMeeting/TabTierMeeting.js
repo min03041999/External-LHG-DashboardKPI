@@ -24,7 +24,7 @@ function TabTierMeeting(props) {
     return {
       tier_level: data.tier_level,
       meeting_date: tranformed_date(data.meeting_date),
-      action_plan_no: data.action_plan_no,
+      // action_plan_no: data.action_plan_no,
       area: data.area,
       issue: data.issue,
       cause: data.cause,
@@ -50,7 +50,7 @@ function TabTierMeeting(props) {
   const HEADER_TIER_MEETING = [
     t("tier-meeting.tier-meeting-tier-level"),
     t("tier-meeting.tier-meeting-meeting-date"),
-    t("tier-meeting.tier-meeting-action-plan-no"),
+    // t("tier-meeting.tier-meeting-action-plan-no"),
     t("tier-meeting.tier-meeting-area"),
     t("tier-meeting.tier-meeting-issue"),
     t("tier-meeting.tier-meeting-cause"),

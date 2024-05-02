@@ -10,7 +10,7 @@ export const IS_TARGET_EFF_RFT = {
     eff: 62,
   },
   floor: {
-    rft: 90,
+    rft: 85,
     eff: 62,
   },
 };

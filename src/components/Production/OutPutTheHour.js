@@ -24,7 +24,7 @@ const OutPutTheHour = (props) => {
   } = props;
   const [t] = useTranslation("global");
 
-  const [target, setTarget] = useState();
+  // const [target, setTarget] = useState();
 
   const outPutHour = useMemo(() => {
     const getDataLine = data?.find((item) => item.lineAlias === line);
@@ -41,44 +41,36 @@ const OutPutTheHour = (props) => {
       const actual = section === "assembly" ? actualAssembly : actualStitching;
       const target = section === "assembly" ? targetAssembly : targetStitching;
 
-      const myTarget =
-        target && plannedWorkingHours && plannedWorkingHours !== 0
-          ? Math.ceil(target / 9)
-          : 0;
+      // const myTarget =
+      //   target && plannedWorkingHours && plannedWorkingHours !== 0
+      //     ? Math.ceil(target / 9)
+      //     : 0;
 
-      setTarget(myTarget);
+      // setTarget(myTarget);
 
       const myKeys = Object.keys(OBJECT_TIME_RANGE);
       const keys = new Set(Object.keys(actual).slice(0, 9));
 
+      // return Object.entries(myKeys)?.map(([key, value]) => ({
+      //   time: value,
+      //   actual: data && keys.has(value) ? actual[key] : 0,
+      //   target: floor === "D-F3" ? 90 : 140,
+      // }));
+
       return Object.entries(myKeys)?.map(([key, value]) => ({
         time: value,
-        actual: data && keys.has(value) ? handleOutPutHour(floor) : 0,
+        actual: data && keys.has(value) ? actual[value] : 0,
         target: floor === "D-F3" ? 90 : 140,
       }));
     }
   }, [data, line, section]);
 
+  // console.log(outPutHour);
+
   const ticks =
     outPutHour[0]?.target !== 0 ? [outPutHour[0]?.target] : ["auto", "auto"];
   const domain =
     outPutHour[0]?.target !== 0 ? [0, outPutHour[0]?.target] : ["auto", "auto"];
-  // useMemo(() => {
-  //   let target = [];
-  //   let actual = [];
-  //   let total = [];
-  //   outPutHour?.map((e) => {
-  //     target.push(e.target);
-  //     actual.push(e.actual);
-  //   });
-  //   let sumtarget = _.sum(target);
-  //   let sumactual = _.sum(actual);
-  //   let json = { sumtarget, sumactual };
-  //   total.push(json);
-  //   // setTotalOuput(total ? total : 0);
-  //   console.log(total);
-  //   // return setTotalOuput();
-  // });
 
   useMemo(() => {
     const target = outPutHour?.reduce(

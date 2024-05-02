@@ -19,7 +19,6 @@ const ModelRun = (props) => {
 
   useEffect(() => {
     const getDataLine = data?.find((item) => item.lineAlias === line);
-    console.log(getDataLine);
     if (getDataLine) {
       const { targetAssembly } = getDataLine;
       setTarget({

@@ -29,6 +29,7 @@ const RFTByTheHour = (props) => {
 
     if (getDataLine) {
       const { assemblyRFT, stitchingRFT } = getDataLine;
+
       const dataRFT = section === "assembly" ? assemblyRFT : stitchingRFT;
       const keys = Object.keys(dataRFT).map((key) => key);
 
@@ -39,7 +40,7 @@ const RFTByTheHour = (props) => {
           // actual: handleFakeRft(dataRFT[key]),
           // target: type === "stitching" ? 95 : 90,
           //20240427
-          actual: handleFakeRftLine(dataRFT[key]),
+          actual: dataRFT[key],
           target: type === "stitching" ? 85 : 85,
         });
       }

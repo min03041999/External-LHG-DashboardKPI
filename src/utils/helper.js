@@ -401,9 +401,25 @@ export const handleFakeRftLine = (value) => {
   return 0;
 };
 
-//OUTPUT BY THE HOUR
-export const handleOutPutHour = (model) => {
-  if (model === "D-F3") {
+//HOURLY OUTPUT BY LINE
+export const handleFakeTargetHourlyOutPutByLine = (floor) => {
+  if (floor.includes("D3-")) {
+    return 90;
+  } else {
+    return 140;
+  }
+};
+
+export const handleFakeTargetHourlyOutPutByLines = (line) => {
+  if (line.includes("D3-")) {
+    return random(80, 90);
+  } else {
+    return random(130, 150);
+  }
+};
+
+export const handleOutPutHour = (floor) => {
+  if (floor === "D-F3") {
     return random(80, 90);
   } else {
     return random(130, 150);

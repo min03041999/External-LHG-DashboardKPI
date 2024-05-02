@@ -30,11 +30,19 @@ import AnalyzerTotalOutput from "../components/Production/AnalyzerTotalOutput";
 import AnalyzerTarget from "../components/Production/AnalyzerTaget";
 
 import { useTranslation } from "react-i18next";
-import { productionApi } from "../api/Production/productionApi";
 
 import CircularProgress from "@mui/material/CircularProgress";
 
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getProductionFactoriesApi,
+  getProductionFloorAndLineApi,
+  getStopLineTop3,
+} from "../redux/feature/production";
+
 const ProductionScreen = () => {
+  const dispatch = useDispatch();
+  const { production, stopLineTop3 } = useSelector((state) => state.product);
   const [screenHeight, setScreenHeight] = useState(window.innerHeight);
   const [t] = useTranslation("global");
 
@@ -46,53 +54,47 @@ const ProductionScreen = () => {
     section: "",
   });
   const [date, setDate] = useState(dayjs(new Date()));
-  const [productionData, setProductionData] = useState([]);
-  const [stopLineTop3, setStopLineTop3] = useState([]);
   const [getEFF, setGetEFF] = useState("0%");
   const [getRFT, setRFT] = useState("0%");
-  const DATA_PRODUCTION = productionData?.floorData;
-  const stopLineList = Array.isArray(productionData?.stopLineData)
-    ? productionData?.stopLineData
-    : [];
+
   const [totalOutput, setTotalOuput] = useState([]);
+
+  //Set Height
   useEffect(() => {
     let dates = dayjs(date).format("YYYY/MM/DD");
     setIsState(false);
 
-    const getFactoryDataApi = async (dates, navigate) => {
-      let res = await productionApi.getProductionFactoryApi(
-        dates,
-        navigate.factory
-      );
-
-      setProductionData(res.data.data);
+    const fetchDataFactory = async (date, factory) => {
+      await dispatch(getProductionFactoriesApi({ date, factory }));
       setIsState(true);
     };
 
-    const getFloorDataApi = async (dates, navigate) => {
-      let res = await productionApi.getFloorDataApi(dates, navigate.floor);
-      setProductionData(res.data.data);
-      setIsState(true);
-    };
-
-    const getStopLineTop3 = async (dates, navigate) => {
-      let res = await productionApi.getStopLineTop3(dates, navigate.line);
-      setStopLineTop3(res.data.data);
+    const fetchDataFloorAndLine = async (date, floor) => {
+      await dispatch(getProductionFloorAndLineApi({ date, floor }));
       setIsState(true);
     };
 
     if (navigate.floor === "") {
-      getFactoryDataApi(dates, navigate);
+      fetchDataFactory(dates, navigate.factory);
     } else {
-      getFloorDataApi(dates, navigate);
-
-      if (navigate.line !== "") {
-        getStopLineTop3(dates, navigate);
-      }
+      fetchDataFloorAndLine(dates, navigate.floor);
     }
-  }, [navigate.factory, navigate.floor, date]);
+  }, [dispatch, navigate.factory, navigate.floor, date]);
 
-  //Set Height
+  useEffect(() => {
+    let dates = dayjs(date).format("YYYY/MM/DD");
+    // setIsState(false);
+
+    const fetchDataStopLineTop3 = async (date, line) => {
+      await dispatch(getStopLineTop3({ date, line }));
+      // setIsState(true);
+    };
+
+    if (navigate.line) {
+      fetchDataStopLineTop3(dates, navigate.line);
+    }
+  }, [dispatch, navigate.factory, navigate.floor, navigate.line, date]);
+
   useEffect(() => {
     function handleResize() {
       setScreenHeight(window.innerHeight);
@@ -160,7 +162,7 @@ const ProductionScreen = () => {
                   type={"eff"}
                   typeChart={"ColumnMixed"}
                   checkFloorLine={navigate?.floor}
-                  data={DATA_PRODUCTION}
+                  data={production.floorData}
                   titleTarget={t("production.eff-by-the-floor-target")}
                   titleActual={t("production.eff-by-the-floor-actual")}
                 />
@@ -178,7 +180,7 @@ const ProductionScreen = () => {
                   checkFloorLine={navigate?.floor}
                   type={"rft"}
                   typeChart={"ColumnMixed"}
-                  data={DATA_PRODUCTION}
+                  data={production.floorData}
                   titleTarget={t("production.rft-by-the-floor-target")}
                   titleActual={t("production.rft-by-the-floor-actual")}
                 />
@@ -211,14 +213,14 @@ const ProductionScreen = () => {
                       header={t("production.total-output")}
                       titleTarget={t("production.total-output-target")}
                       titleActual={t("production.total-output-actual")}
-                      data={DATA_PRODUCTION}
+                      data={production.floorData}
                     />
                   </Grid>
                   <Grid item xs={6} sm={6} md={6}>
                     <AnalyzerTopLine
                       customStyle={SET_FULL_SCREEN_LAPTOP_}
                       header={t("production.stopline")}
-                      data={stopLineList}
+                      data={production.stopLineData}
                     />
                   </Grid>
                 </Grid>
@@ -232,8 +234,7 @@ const ProductionScreen = () => {
                       ? t("production.output-by-floor")
                       : t("production.output-by-line")
                   }
-                  data={DATA_PRODUCTION}
-                  // data={OUTPUT_BY_FLOOR}
+                  data={production.floorData}
                 />
               </Grid>
               <Grid item xs={4}>
@@ -245,7 +246,8 @@ const ProductionScreen = () => {
                       ? t("production.hourly-output-by-floor")
                       : t("production.hourly-output-by-line")
                   }
-                  data={DATA_PRODUCTION}
+                  floor={navigate.floor}
+                  data={production.floorData}
                 />
               </Grid>
               <Grid item xs={4} sx={SET_FULL_SCREEN_LAPTOP}>
@@ -257,7 +259,7 @@ const ProductionScreen = () => {
                       ? t("production.attendance-by-floor")
                       : t("production.attendance-by-line")
                   }
-                  data={DATA_PRODUCTION}
+                  data={production.floorData}
                 />
               </Grid>
             </Grid>
@@ -276,7 +278,7 @@ const ProductionScreen = () => {
                       header={t("production.eff-by-the-hour")}
                       type={"eff"}
                       section={navigate.section}
-                      data={DATA_PRODUCTION}
+                      data={production.floorData}
                       line={navigate.line}
                       setGetEFF={setGetEFF}
                     />
@@ -288,8 +290,7 @@ const ProductionScreen = () => {
                       header={t("production.rft-by-the-hour")}
                       type={"rft"}
                       section={navigate.section}
-                      // data={EFF_BY_THE_FLOOR}
-                      data={DATA_PRODUCTION}
+                      data={production.floorData}
                       line={navigate.line}
                       setRFT={setRFT}
                     />
@@ -298,10 +299,7 @@ const ProductionScreen = () => {
                     <ModelRun
                       customStyle={SET_FULL_SCREEN_LAPTOP}
                       header={t("production.model-run-by-line")}
-                      // targetStitching={target.targetStitching}
-                      // targetAssembly={target.targetAssembly}
-                      // data={SHOE_DATA}
-                      data={DATA_PRODUCTION}
+                      data={production.floorData}
                       line={navigate.line}
                     />
                   </Grid>
@@ -310,11 +308,8 @@ const ProductionScreen = () => {
                       customStyle={SET_FULL_SCREEN_LAPTOP}
                       setHeightChart={SET_HEIGHT_CHART}
                       header={t("production.output-by-the-hour")}
-                      // target={TARGET}
-                      // plannedWorkingHours={8}
-                      // data={OUTPUT_BY_THE_HOURS}
                       section={navigate.section}
-                      data={DATA_PRODUCTION}
+                      data={production.floorData}
                       line={navigate.line}
                       floor={navigate.floor}
                       setTotalOuput={setTotalOuput}
@@ -325,10 +320,8 @@ const ProductionScreen = () => {
                       customStyle={SET_FULL_SCREEN_LAPTOP}
                       setHeightChart={SET_HEIGHT_CHART}
                       header={t("production.pph-by-the-hour")}
-                      // data={OUTPUT_BY_THE_HOURS}
-                      // worker={WORKER}
                       section={navigate.section}
-                      data={DATA_PRODUCTION}
+                      data={production.floorData}
                       line={navigate.line}
                     />
                   </Grid>
@@ -372,7 +365,7 @@ const ProductionScreen = () => {
                           customStyle={SET_FULL_SCREEN_LAPTOP_}
                           header={t("production.attendance")}
                           section={navigate.section}
-                          data={DATA_PRODUCTION}
+                          data={production.floorData}
                           line={navigate.line}
                         />
                       </Grid>
