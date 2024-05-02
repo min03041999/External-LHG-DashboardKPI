@@ -150,9 +150,17 @@ export const productSlice = createSlice({
         //RFT BY THE HOUR LINE
 
         //handleFakeTargetHourlyOutPutByLines
+        //Assembly
         for (let time in actualAssembly) {
           actualAssembly[time] = handleFakeTargetHourlyOutPutByLines(lineAlias);
         }
+
+        for (let time in actualStitching) {
+          actualStitching[time] =
+            handleFakeTargetHourlyOutPutByLines(lineAlias);
+        }
+        //Stitching
+        //handleFakeTargetHourlyOutPutByLines
       });
       // console.log(action.payload.data);
       state.production = action.payload.data;
