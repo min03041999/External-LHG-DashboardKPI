@@ -30,57 +30,7 @@ const EFFByFloor = (props) => {
 
   //EFF
   useEffect(() => {
-    const floorData = data?.map((item, index) => {
-      const {
-        worker,
-        actualAssembly,
-        shoesData,
-        actualWorkingHours,
-        actualWorkingHoursNew,
-      } = item;
-
-      const totalActualAssembly = actualAssembly
-        ? Object.values(actualAssembly).reduce((sum, value) => sum + value, 0)
-        : 0;
-
-      const totalLC =
-        shoesData && shoesData.length > 0
-          ? shoesData[0].stitchingLc + shoesData[0].assemblyLc
-          : 0;
-      const totalWorker = worker.stitching + worker.assembly;
-      const idealTime = (totalActualAssembly * totalLC) / 233;
-
-      const productionTime =
-        actualWorkingHoursNew && actualWorkingHoursNew > 0
-          ? totalWorker * actualWorkingHoursNew
-          : 1; // Vi du dang lam duoc 2 tieng;
-
-      const efficiency =
-        productionTime !== 0
-          ? Math.round((idealTime / productionTime) * 100)
-          : 0;
-      // const efficiency = Math.round(Math.random() * 10 + 65);
-
-      if (checkFloorLine !== "") {
-        handleFakeEff(item.lineAlias, efficiency);
-        return {
-          ...item,
-          // Tinh fake eff cho ngay co khach hang
-          efficiency: handleFakeEff(item.lineAlias, efficiency),
-          // efficiency,
-        };
-      } else {
-        handleFakeEffFloor(item.lineAlias, efficiency);
-        return {
-          ...item,
-          // Tinh fake eff cho ngay co khach hang
-          efficiency: handleFakeEffFloor(item.lineAlias, efficiency),
-          // efficiency,
-        };
-      }
-    });
-
-    let transformed_eff = floorData?.map((item) => {
+    let transformed_eff = data?.map((item) => {
       return {
         data_1: item.lineAlias,
         data_2: item.efficiency,

@@ -23,12 +23,13 @@ const HourlyOutputByFloor = (props) => {
       return {
         target: floor
           ? handleFakeTargetHourlyOutPutByLine(item.lineAlias)
-          : Math.round(item.targetAssembly / 9),
+          : item.totalTarget,
         line: item.lineAlias,
         actual: item.actualAssembly,
       };
     });
   }, [data]);
+  // console.log(hourlyOuput);
 
   const sortedArray = hourlyOuput?.sort((a, b) => {
     const lineA = parseInt(a.line.split("-")[1]);

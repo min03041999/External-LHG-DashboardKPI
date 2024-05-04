@@ -59,6 +59,8 @@ const ProductionScreen = () => {
 
   const [totalOutput, setTotalOuput] = useState([]);
 
+  const [existLine, setExistLine] = useState(false);
+
   //Set Height
   useEffect(() => {
     let dates = dayjs(date).format("YYYY/MM/DD");
@@ -99,13 +101,21 @@ const ProductionScreen = () => {
     function handleResize() {
       setScreenHeight(window.innerHeight);
     }
-
+    // console.log(screenHeight);
     window.addEventListener("resize", handleResize);
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    const checkLine = production?.floorData?.find(
+      (item) => item && item.lineAlias === navigate?.line
+    );
+
+    setExistLine(!!checkLine);
+  }, [production, navigate.line]);
   // console.log(dayjs(date).format("YYYY/MM/DD"));
 
   // SET FOR SLIDE 1
@@ -113,6 +123,12 @@ const ProductionScreen = () => {
     screenHeight > 730
       ? { height: `${screenHeight / 3 - 16}px` }
       : { height: "300px" };
+
+  const SET_FULL_SCREEN_LAPTOPS =
+    screenHeight > 730
+      ? { height: `${screenHeight / 3 + 32}px` }
+      : { height: "300px" };
+
   const SET_FULL_SCREEN_LAPTOP_ = {
     ...SET_FULL_SCREEN_LAPTOP,
     height: parseFloat(SET_FULL_SCREEN_LAPTOP.height) / 2 - 8,
@@ -121,6 +137,9 @@ const ProductionScreen = () => {
   // SET CHART
   const SET_HEIGHT_CHART =
     screenHeight > 730 ? screenHeight / 3 - 51 : 300 - 51;
+
+  const SET_HEIGHT_CHARTS =
+    screenHeight > 730 ? screenHeight / 3 - 19 : 300 - 19;
 
   return (
     <Box component={"div"} className="production-screen">
@@ -227,8 +246,8 @@ const ProductionScreen = () => {
               </Grid>
               <Grid item xs={4}>
                 <OutPutByFloor
-                  customStyle={SET_FULL_SCREEN_LAPTOP}
-                  setHeightChart={SET_HEIGHT_CHART}
+                  customStyle={SET_FULL_SCREEN_LAPTOPS}
+                  setHeightChart={SET_HEIGHT_CHARTS}
                   header={
                     navigate?.floor === ""
                       ? t("production.output-by-floor")
@@ -239,8 +258,8 @@ const ProductionScreen = () => {
               </Grid>
               <Grid item xs={4}>
                 <HourlyOutputByFloor
-                  customStyle={SET_FULL_SCREEN_LAPTOP}
-                  setHeightTable={SET_HEIGHT_CHART}
+                  customStyle={SET_FULL_SCREEN_LAPTOPS}
+                  setHeightTable={SET_HEIGHT_CHARTS}
                   header={
                     navigate?.floor === ""
                       ? t("production.hourly-output-by-floor")
@@ -250,10 +269,10 @@ const ProductionScreen = () => {
                   data={production.floorData}
                 />
               </Grid>
-              <Grid item xs={4} sx={SET_FULL_SCREEN_LAPTOP}>
+              <Grid item xs={4}>
                 <AttendanceByFloor
-                  customStyle={SET_FULL_SCREEN_LAPTOP}
-                  setHeightChart={SET_HEIGHT_CHART}
+                  customStyle={SET_FULL_SCREEN_LAPTOPS}
+                  setHeightChart={SET_HEIGHT_CHARTS}
                   header={
                     navigate?.floor === ""
                       ? t("production.attendance-by-floor")
@@ -263,7 +282,7 @@ const ProductionScreen = () => {
                 />
               </Grid>
             </Grid>
-          ) : (
+          ) : existLine ? (
             <Slick setDot={false} setArrow={true} swipe={true}>
               <div>
                 <Grid
@@ -335,7 +354,8 @@ const ProductionScreen = () => {
                             IS_TARGET_EFF_RFT.floor.eff
                           }%`}
                           type={"eff"}
-                          data={`${getEFF}%`}
+                          line={navigate.line}
+                          data={production.floorData}
                         />
                       </Grid>
                       <Grid item xs={6} sm={6} md={6}>
@@ -345,7 +365,8 @@ const ProductionScreen = () => {
                           target={`${t("production.rft-target")} ${
                             IS_TARGET_EFF_RFT.line.rft
                           }%`}
-                          data={`${getRFT}%`}
+                          line={navigate.line}
+                          data={production.floorData}
                           type={"rft"}
                         />
                       </Grid>
@@ -391,6 +412,8 @@ const ProductionScreen = () => {
                 </Grid>
               </div>
             </Slick>
+          ) : (
+            ""
           )}
         </Box>
       ) : (

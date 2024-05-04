@@ -1,9 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { productionApi } from "../../api/Production/productionApi";
 import {
+  handleFakeEffFloor,
+  handleFakeEff,
   handleFakeRftLine,
+  handleFakeHourlyOutPutByFloor,
   handleFakeTargetHourlyOutPutByLines,
   handleFakeModel,
+  handleFakeRft,
 } from "../../utils/helper";
 
 import { OBJECT_TIME_RANGE } from "../../utils/times";
@@ -62,6 +66,55 @@ export const productSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getProductionFactoriesApi.fulfilled, (state, action) => {
+      action.payload.data?.floorData?.map((lineData, index) => {
+        const {
+          lineAlias,
+          totalTarget,
+          worker,
+          shoesData,
+          actualAssembly,
+          actualStitching,
+          actualWorkingHoursNew,
+          quality,
+        } = lineData;
+
+        const totalActualAssembly = actualAssembly
+          ? Object.values(actualAssembly).reduce((sum, value) => sum + value, 0)
+          : 0;
+
+        const totalLC =
+          shoesData && shoesData.length > 0
+            ? shoesData[0].stitchingLc + shoesData[0].assemblyLc
+            : 0;
+        const totalWorker = worker.stitching + worker.assembly;
+        const idealTime = (totalActualAssembly * totalLC) / 233;
+
+        const productionTime =
+          actualWorkingHoursNew && actualWorkingHoursNew > 0
+            ? totalWorker * actualWorkingHoursNew
+            : 1; // Vi du dang lam duoc 2 tieng;
+
+        const efficiency =
+          productionTime !== 0
+            ? Math.round((idealTime / productionTime) * 100)
+            : 0;
+        // const efficiency = Math.round(Math.random() * 10 + 65);
+
+        action.payload.data.floorData[index] = {
+          ...lineData,
+          efficiency: handleFakeEffFloor(lineAlias, efficiency),
+          quality: handleFakeRft(quality),
+        };
+
+        for (let time in actualAssembly) {
+          actualAssembly[time] = handleFakeHourlyOutPutByFloor(
+            lineAlias,
+            totalTarget
+          );
+        }
+      });
+
+      console.log(action.payload.data);
       state.production = action.payload.data;
     });
     builder.addCase(getProductionFloorAndLineApi.fulfilled, (state, action) => {
@@ -72,9 +125,37 @@ export const productSlice = createSlice({
           shoesData,
           actualAssembly,
           actualStitching,
+          actualWorkingHoursNew,
           assemblyRFT,
           stitchingRFT,
+          quality, //RFT
         } = lineData;
+        //EFF BY FLOOR
+        const totalActualAssembly = actualAssembly
+          ? Object.values(actualAssembly).reduce((sum, value) => sum + value, 0)
+          : 0;
+        const totalLC =
+          shoesData && shoesData.length > 0
+            ? shoesData[0].stitchingLc + shoesData[0].assemblyLc
+            : 0;
+        const totalWorker = worker.stitching + worker.assembly;
+        const idealTime = (totalActualAssembly * totalLC) / 233;
+        const productionTime =
+          actualWorkingHoursNew && actualWorkingHoursNew > 0
+            ? totalWorker * actualWorkingHoursNew
+            : 1; // Vi du dang lam duoc 2 tieng;
+
+        const efficiency =
+          productionTime !== 0
+            ? Math.round((idealTime / productionTime) * 100)
+            : 0;
+        // const efficiency = Math.round(Math.random() * 10 + 65);
+        //EFF BY FLOOR
+
+        //RFT BY FlOOR
+
+        //RFT BY FlOOR
+
         //EFF BY THE HOUR LINE
         const myKeys = Object.keys(OBJECT_TIME_RANGE);
         //Assembly
@@ -134,6 +215,8 @@ export const productSlice = createSlice({
 
         action.payload.data.floorData[index] = {
           ...lineData,
+          efficiency: handleFakeEff(lineAlias, efficiency),
+          quality: handleFakeRft(quality),
           eff_assembly_line: eff_assembly_line ? eff_assembly_line : {},
           eff_stitching_line: eff_stitching_line ? eff_stitching_line : {},
         };
@@ -162,7 +245,7 @@ export const productSlice = createSlice({
         //Stitching
         //handleFakeTargetHourlyOutPutByLines
       });
-      // console.log(action.payload.data);
+      console.log(action.payload.data);
       state.production = action.payload.data;
     });
     builder.addCase(getStopLineTop3.fulfilled, (state, action) => {

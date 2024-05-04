@@ -10,8 +10,6 @@ import ColumnChartMixed from "../ColumnChartMixed";
 import { COLUMN_CHART_MIXED_COLOR } from "../../utils/config.js";
 import { IS_TARGET_EFF_RFT } from "../../utils/base.js";
 
-import { handleFakeRft } from "../../utils/helper.js";
-
 const RFTByFloor = (props) => {
   const {
     setRFT,
@@ -32,7 +30,7 @@ const RFTByFloor = (props) => {
     const transformedData_RFT = data?.map((item) => {
       return {
         data_1: item.lineAlias,
-        data_2: handleFakeRft(item.quality),
+        data_2: item.quality,
         data_3:
           checkFloorLine !== ""
             ? IS_TARGET_EFF_RFT.floor[type]

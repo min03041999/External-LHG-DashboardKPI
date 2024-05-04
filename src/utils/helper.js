@@ -401,6 +401,14 @@ export const handleFakeRftLine = (value) => {
   return 0;
 };
 
+//HOURLY OUTPUT BY FLOOR
+export const handleFakeHourlyOutPutByFloor = (floor, target) => {
+  return random(
+    Math.round(target - target * 0.05),
+    Math.round(target + target * 0.05)
+  );
+};
+
 //HOURLY OUTPUT BY LINE
 export const handleFakeTargetHourlyOutPutByLine = (floor) => {
   if (floor.includes("D3-")) {
