@@ -113,7 +113,7 @@ const MaterialScreen = () => {
             : { position: "relative", height: "100%" }
         }
       >
-        <Breadcrumb>{t("material-wh.name")}</Breadcrumb>
+        <Breadcrumb factory={"LHG"}>{t("material-wh.name")}</Breadcrumb>
       </Box>
       <Box
         component={"div"}

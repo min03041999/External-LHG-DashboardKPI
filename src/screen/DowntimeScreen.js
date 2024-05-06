@@ -16,6 +16,7 @@ import { useTranslation } from "react-i18next";
 import { downTimeApi } from "../api/Downtime/Downtime";
 
 const DowntimeScreen = () => {
+  const [t] = useTranslation("global");
   const [screenHeight, setScreenHeight] = useState(window.innerHeight);
   const [navigate, setNavigate] = useState({
     factory: FACTORY,
@@ -31,6 +32,13 @@ const DowntimeScreen = () => {
   const [downtTimeReason, setDownTimeReason] = useState([]);
   const [mechanicRepairTime, setMechanicRepairTime] = useState([]);
   const [listMechanic, setListMechanic] = useState([]);
+
+  const [changeBreakDown, setChangeBreakDown] = useState(
+    t("downtime.breakdown-by-floor")
+  );
+  const [changeMachineDownTime, setChangeMachineDownTime] = useState(
+    t("downtime.breakdown-by-floor")
+  );
 
   useEffect(() => {
     function handleResize() {
@@ -105,9 +113,28 @@ const DowntimeScreen = () => {
   const SET_HEIGHT_CHART =
     screenHeight > 730 ? screenHeight / 3 - 90 : 300 - 90;
 
-  const [t] = useTranslation("global");
-
   // console.log(breakDownTime);
+
+  useEffect(() => {
+    if (
+      navigate.factory !== "" &&
+      navigate.floor === "" &&
+      navigate.line === ""
+    ) {
+      setChangeBreakDown(t("downtime.breakdown-by-floor"));
+      setChangeMachineDownTime(t("downtime.machine-downtime-by-floor"));
+    } else if (
+      navigate.factory !== "" &&
+      navigate.floor !== "" &&
+      navigate.line === ""
+    ) {
+      setChangeBreakDown(t("downtime.breakdown-by-line"));
+      setChangeMachineDownTime(t("downtime.machine-downtime-by-line"));
+    } else {
+      setChangeBreakDown(t("downtime.breakdown-by-machine"));
+      setChangeMachineDownTime(t("downtime.machine-downtime-by-machine"));
+    }
+  }, [navigate, setChangeBreakDown]);
 
   return (
     <Box component={"div"} className="downtime-screen">
@@ -119,7 +146,7 @@ const DowntimeScreen = () => {
             : { position: "relative", height: "100%" }
         }
       >
-        <Breadcrumb>{t("downtime.name")}</Breadcrumb>
+        <Breadcrumb factory={"LHG"}>{t("downtime.name")}</Breadcrumb>
         <Navigation
           navigate={navigate}
           setNavigate={setNavigate}
@@ -141,7 +168,7 @@ const DowntimeScreen = () => {
             <Grid item lg={3} md={6} sm={6} xs={12}>
               <TotalBreakdownByLineOrMachine
                 customStyle={SET_FULL_SCREEN_LAPTOP}
-                header={t("downtime.breakdown-by-machine")}
+                header={changeBreakDown}
                 setHeightChart={SET_HEIGHT_CHART}
                 data={breakDownTime}
                 titleTimes={t("downtime.breakdown-by-machine-times")}
@@ -150,10 +177,10 @@ const DowntimeScreen = () => {
             <Grid item lg={3} md={6} sm={6} xs={12}>
               <TotalMachineDowntimeByLine
                 customStyle={SET_FULL_SCREEN_LAPTOP}
-                header={t("downtime.machine-downtime-by-line")}
+                header={changeMachineDownTime}
                 setHeightChart={SET_HEIGHT_CHART}
                 data={breakDownMinutes}
-                titleMinutes={t("downtime.machine-downtime-by-line-minutes")}
+                titleMinutes={t("downtime.machine-downtime-by-machine-minutes")}
               />
             </Grid>
             <Grid item lg={6} md={12} sm={12} xs={12}>

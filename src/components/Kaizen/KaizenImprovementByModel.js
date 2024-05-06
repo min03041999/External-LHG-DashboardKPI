@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../Card";
 import Title from "../Title";
 import Category from "../Category";
 
-import { Grid, Box, Typography } from "@mui/material";
+import { Grid, Stack, Button, Box, Typography } from "@mui/material";
 import PDFViewer from "../PDFViewer";
 
-const KAIZEN_MODEL = [
+const KAIZEN_MODEL_LHG = [
   {
     name: "CAMPUS 00S CF EL I",
     link: "http://192.168.30.19/dashboard/KaizenCloud/CAMPUS%2000S%20CF%20EL%20I.pdf",
@@ -49,6 +49,13 @@ const KAIZEN_MODEL = [
   },
 ];
 
+const KAIZEN_MODEL_LVL = [
+  {
+    name: "CAMPUS 00S CF EL I",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/CAMPUS%2000S%20CF%20EL%20I.pdf",
+  },
+];
+
 const HeaderPDFStyle = {
   width: "100%",
   height: "48px",
@@ -61,20 +68,62 @@ const HeaderPDFStyle = {
 };
 
 const KaizenImprovementByModel = (props) => {
-  const { customStyle, header } = props;
-  const [category, setCategory] = useState(KAIZEN_MODEL[0].name);
+  const { customStyle, header, factory, onChangeFactory } = props;
 
+  const [kaizenModel, setKaizenModel] = useState(
+    factory ? KAIZEN_MODEL_LHG : KAIZEN_MODEL_LVL
+  );
+  const [category, setCategory] = useState(kaizenModel[0].name);
   const HEIGHT = {
     ...customStyle,
-    height: parseFloat(parseInt(customStyle.height, 10)) - 100,
+    height: parseFloat(parseInt(customStyle.height, 10)) - 110,
   };
 
-  const { name, link } = KAIZEN_MODEL?.find((item) => item.name === category);
+  const { name, link } = kaizenModel?.find((item) => item.name === category);
+
+  useEffect(() => {
+    const data = factory === "LHG" ? KAIZEN_MODEL_LHG : KAIZEN_MODEL_LVL;
+    setKaizenModel(data);
+    setCategory(data[0].name);
+  }, [factory]);
 
   return (
     <Card customStyle={customStyle}>
-      <Title name={header} />
-
+      <Stack direction="row" spacing={2}>
+        <Title name={header} />
+        <Button
+          variant="contained"
+          sx={{
+            bgcolor: factory === "LHG" ? "#049962" : "#82ca9d",
+            marginRight: 2,
+            marginLeft: 2,
+            ":hover": {
+              bgcolor: "#82ca9d",
+              color: "#fff",
+              opacity: 0.8,
+            },
+          }}
+          onClick={() => onChangeFactory("LHG")}
+        >
+          LHG
+        </Button>
+        <Button
+          variant="contained"
+          sx={{
+            bgcolor: factory === "LVL" ? "#049962" : "#82ca9d",
+            marginRight: 2,
+            marginLeft: 2,
+            ":hover": {
+              bgcolor: "#82ca9d",
+              color: "#fff",
+              opacity: 0.8,
+            },
+          }}
+          onClick={() => onChangeFactory("LVL")}
+        >
+          LVL
+        </Button>
+      </Stack>
       <Grid
         container
         spacing={{ xs: 1, md: 1 }}
@@ -82,7 +131,7 @@ const KaizenImprovementByModel = (props) => {
       >
         <Grid item xs={2}>
           <Category
-            data={KAIZEN_MODEL}
+            data={kaizenModel}
             category={category}
             setCategory={setCategory}
           />

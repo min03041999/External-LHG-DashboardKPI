@@ -39,7 +39,7 @@ const TierMeetingScreen = () => {
   return (
     <Box component={"div"} className="tier-meeting-screen">
       <Box component={"div"}>
-        <Breadcrumb>{t("tier-meeting.name")}</Breadcrumb>
+        <Breadcrumb factory={"LHG"}>{t("tier-meeting.name")}</Breadcrumb>
       </Box>
 
       <Box

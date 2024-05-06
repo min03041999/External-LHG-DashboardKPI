@@ -71,7 +71,7 @@ const StockFittingScreen = () => {
   return (
     <Box component={"div"} className="stockfitting-screen">
       <Box component={"div"}>
-        <Breadcrumb>
+        <Breadcrumb factory={"LHG"}>
           {t("stockfitting.name")}{" "}
           <Button
             component={Link}

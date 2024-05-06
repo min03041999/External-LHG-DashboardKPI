@@ -79,7 +79,7 @@ const FGWHScreen = () => {
   return (
     <Box component={"div"} className="fgwh-screen">
       <Box component={"div"}>
-        <Breadcrumb>{t("fg-w-h.name")}</Breadcrumb>
+        <Breadcrumb factory={"LHG"}>{t("fg-w-h.name")}</Breadcrumb>
       </Box>
 
       <Box component={"div"} className="fgwh-screen-body" sx={{ flexGrow: 1 }}>

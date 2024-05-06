@@ -10,6 +10,8 @@ const KaizenScreen = () => {
   const [screenHeight, setScreenHeight] = useState(window.innerHeight);
   const [t] = useTranslation("global");
 
+  const [factory, setFactory] = useState("LHG");
+
   //Set Height
   useEffect(() => {
     function handleResize() {
@@ -28,14 +30,20 @@ const KaizenScreen = () => {
       ? { height: `${screenHeight - 60}px` }
       : { height: "100%" };
 
+  const onChangeFactory = (factory) => {
+    setFactory(factory);
+  };
+
   return (
     <React.Fragment>
-      <Breadcrumb>{t("kaizen.name")}</Breadcrumb>
+      <Breadcrumb factory={factory}>{t("kaizen.name")}</Breadcrumb>
 
       <Box component={"div"}>
         <KaizenImprovementByModel
           header={t("kaizen.kaizen-improvement")}
           customStyle={SET_FULL_SCREEN_LAPTOP}
+          factory={factory}
+          onChangeFactory={onChangeFactory}
         />
       </Box>
     </React.Fragment>

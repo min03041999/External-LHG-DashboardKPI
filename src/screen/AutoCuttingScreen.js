@@ -58,7 +58,7 @@ const AutoCuttingScreen = () => {
   return (
     <Box component={"div"} className="autocutting-screen">
       <Box component={"div"}>
-        <Breadcrumb>
+        <Breadcrumb factory={"LHG"}>
           {t("auto-cutting.name")}
           <Button
             component={Link}

@@ -151,7 +151,7 @@ const ProductionScreen = () => {
             : { position: "relative", height: "100%" }
         }
       >
-        <Breadcrumb>{t("production.name")}</Breadcrumb>
+        <Breadcrumb factory={"LHG"}>{t("production.name")}</Breadcrumb>
         <Navigation
           navigate={navigate}
           setNavigate={setNavigate}

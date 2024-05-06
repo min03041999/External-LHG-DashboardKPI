@@ -36,7 +36,7 @@ const LanguagesListStyle = {
 };
 
 const Breadcrumb = (props) => {
-  const { children } = props;
+  const { factory, children } = props;
 
   const [openLanguages, setOpenLanguages] = useState(false);
   const [t, i18n] = useTranslation("global");
@@ -55,7 +55,10 @@ const Breadcrumb = (props) => {
   return (
     <div style={ColumnStyle}>
       <Typography variant="h3" component="h3" className="breadcrumb">
-        <span style={{ color: "#049962" }}>{FACTORY}</span> - {children}
+        <span style={{ color: "#049962" }}>
+          {factory === "LHG" ? FACTORY : "LVL"}
+        </span>{" "}
+        - {children}
       </Typography>
 
       <div>
