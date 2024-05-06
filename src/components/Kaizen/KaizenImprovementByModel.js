@@ -16,43 +16,51 @@ const KAIZEN_MODEL_LHG = [
     link: "http://192.168.30.19/dashboard/KaizenCloud/CAMPUS%2000S%20CF%20EL%20C.pdf",
   },
   {
-    name: "CAMPUS 2000S",
-    link: "http://192.168.30.19/dashboard/KaizenCloud/CAMPUS%2000s%20(1).pdf",
+    name: "CAMPUS 00S",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/CAMPUS%2000s.pdf",
   },
   {
     name: "COURT 24",
-    link: "http://192.168.30.19/dashboard/KaizenCloud/CAMPUS%2000s%20(1).pdf",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/COURT%2024.pdf",
   },
   {
     name: "CRAZYFLIGHT 5",
-    link: "http://192.168.30.19/dashboard/KaizenCloud/CRAZYFLIGHT%205%20(1).pdf",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/CRAZYFLIGHT%205.pdf",
   },
   {
     name: "DON ISSUE 6",
-    link: "http://192.168.30.19/dashboard/KaizenCloud/DON%20ISSUE%206%20(1).pdf",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/DON%20ISSUE%206.pdf",
+  },
+  {
+    name: "GRAND COURT PLATFORM SUEDE",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/GRAND%20COURT%20PLATFORM%20SUEDE.pdf",
+  },
+  {
+    name: "NOVAFLIGHT 2M",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/NOVAFLIGHT%202M.pdf",
   },
   {
     name: "SAMBA DECO SPZL",
-    link: "http://192.168.30.19/dashboard/KaizenCloud/SAMBA%20DECO%20SPZL%20(1).pdf",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/SAMBA%20DECO%20SPZL.pdf",
   },
   {
     name: "SAMBA LT",
-    link: "http://192.168.30.19/dashboard/KaizenCloud/SAMBA%20LT%20(1).pdf",
-  },
-  {
-    name: "SAMBA DECO SPZL",
-    link: "http://192.168.30.19/dashboard/KaizenCloud/SAMBA%20DECO%20SPZL%20(1).pdf",
-  },
-  {
-    name: "SAMBA LT",
-    link: "http://192.168.30.19/dashboard/KaizenCloud/SAMBA%20LT%20(1).pdf",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/SAMBA%20LT.pdf",
   },
 ];
 
 const KAIZEN_MODEL_LVL = [
   {
-    name: "CAMPUS 00S CF EL I",
-    link: "http://192.168.30.19/dashboard/KaizenCloud/CAMPUS%2000S%20CF%20EL%20I.pdf",
+    name: "SAMBA",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/LVL%20SAMBA.pdf",
+  },
+  {
+    name: "COURTJAM CONTROL 3 MWCL",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/LVL%20COURTJAM%20CONTROL%203%20MWCL.pdf",
+  },
+  {
+    name: "GAZELLE INDOOR",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/LVL%20GAZELLE%20INDOOR.pdf",
   },
 ];
 
@@ -134,6 +142,7 @@ const KaizenImprovementByModel = (props) => {
             data={kaizenModel}
             category={category}
             setCategory={setCategory}
+            customStyle={customStyle}
           />
         </Grid>
         <Grid item xs={10}>

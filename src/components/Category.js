@@ -28,12 +28,20 @@ const ActiveItemStyle = {
 };
 
 const Category = (props) => {
-  const { category, setCategory, data } = props;
+  const { category, setCategory, data, customStyle } = props;
+  const HEIGHT = {
+    ...customStyle,
+    height: `${parseFloat(parseInt(customStyle.height, 10)) - 80}px`,
+  };
 
+  // console.log(HEIGHT);
   return (
     <Box component={"div"}>
       <Stack direction="column" spacing={2}>
-        <List component={"nav"} sx={{ width: "100%" }}>
+        <List
+          component={"nav"}
+          sx={{ width: "100%", overflowY: "auto", ...HEIGHT }}
+        >
           {data?.map((item, index) => (
             <ListItemButton
               key={index}
