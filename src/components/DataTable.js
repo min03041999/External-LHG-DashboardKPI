@@ -59,6 +59,16 @@ export default function DataTable(props) {
     }
   };
 
+  const checkColor = (key, item) => {
+    if (key === "status") {
+      if (item[key] === "Ongoing") {
+        return { color: "#ffce54" };
+      } else {
+        return { color: "green" };
+      }
+    }
+  };
+
   return (
     <TableContainer sx={{ width: "100%", height: height }}>
       <Table size="small" stickyHeader>
@@ -91,6 +101,7 @@ export default function DataTable(props) {
                       ...TextStyle,
                       ...customTextStyle,
                     }}
+                    style={checkColor(key, item)}
                   >
                     {checkImage(key, item[key])}
                   </Typography>

@@ -2,12 +2,25 @@ import React from "react";
 import Card from "../Card";
 import Title from "../Title";
 
-import { Grid, Stack } from "@mui/material";
+// import { Grid, Stack } from "@mui/material";
 
 const AnalyzerTopLine = (props) => {
   const { customStyle, header, data } = props;
 
   const isCheck = data?.length !== 0 ? "red" : "green";
+
+  const checkQuantity = data
+    ?.map((item) => {
+      if (item.SL_NgungChuyen !== 0) {
+        return {
+          line: item.line,
+          SL_NgungChuyen: item.SL_NgungChuyen,
+        };
+      }
+    })
+    .filter((item) => item);
+
+  // console.log(checkQuantity);
 
   return (
     <Card customStyle={{ ...customStyle, border: `3px solid ${isCheck}` }}>
@@ -25,7 +38,7 @@ const AnalyzerTopLine = (props) => {
           overflow: "scroll",
         }}
       >
-        {data?.map((item, index) => (
+        {checkQuantity?.map((item, index) => (
           <div
             style={{
               textAlign: "center",

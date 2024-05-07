@@ -5,10 +5,11 @@ import Box from "@mui/material/Box";
 // import { FINISH_GOOD_WH, HEADER_SHIPPING_SCHEDULE } from "../../data";
 import DataTable from "../DataTable";
 import moment from "moment";
-import { fgwhApi } from "../../api/FGWH/fgwhApi";
 
 import { useTranslation } from "react-i18next";
 import { CircularProgress } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { getShippings } from "../../redux/feature/finishgood";
 
 function CustomTabPanel(props) {
   const { children, value, index } = props;
@@ -19,7 +20,9 @@ function CustomTabPanel(props) {
 function TabShippingSchedule(props) {
   const { setHeightTable } = props;
   const [value, setValue] = useState(0);
-  const [shippings, setShippings] = useState([]);
+  // const [shippings, setShippings] = useState([]);
+  const finishgood = useSelector((state) => state.finishgood);
+  const dispatch = useDispatch();
   const [t] = useTranslation("global");
 
   const today = moment();
@@ -43,13 +46,12 @@ function TabShippingSchedule(props) {
     date2Full = today.clone().add(3, "days").format("YYYY/MM/DD");
   }
 
-  const getShippings = async (date) => {
-    let res = await fgwhApi.getShippings(date);
-    setShippings(res.data.data);
+  const getShippingsData = async (date) => {
+    await dispatch(getShippings(date));
   };
 
   useEffect(() => {
-    getShippings(currentDateFull);
+    getShippingsData(currentDateFull);
   }, []);
 
   const handleChange = (event, newValue) => {
@@ -73,10 +75,10 @@ function TabShippingSchedule(props) {
         break;
     }
     // console.log(date);
-    getShippings(date);
+    getShippingsData(date);
   };
 
-  const DATA_SHIPPING_SCHEDULE = shippings?.map((data) => {
+  const DATA_SHIPPING_SCHEDULE = finishgood.shippings?.map((data) => {
     return {
       RY: data.RY,
       PO: data.PO,

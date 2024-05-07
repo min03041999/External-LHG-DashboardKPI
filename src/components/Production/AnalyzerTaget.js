@@ -20,6 +20,7 @@ const AnalyzerTarget = (props) => {
           setValue(`${quality}%`);
         }
       }
+      // setValue(data);
     } else {
       setValue(data);
     }

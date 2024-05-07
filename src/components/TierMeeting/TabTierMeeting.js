@@ -36,6 +36,10 @@ function TabTierMeeting(props) {
     };
   });
 
+  const isCheckColor = DATA_TIER_MEETING?.map((item) => {
+    return { status: item.status };
+  });
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

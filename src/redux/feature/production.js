@@ -113,8 +113,12 @@ export const productSlice = createSlice({
           );
         }
       });
-
-      console.log(action.payload.data);
+      action.payload.data?.stopLineData?.map((stopLineData) => {
+        stopLineData.SL_NgungChuyen = Math.round(
+          stopLineData.SL_NgungChuyen / 4
+        );
+      });
+      // console.log(action.payload.data);
       state.production = action.payload.data;
     });
     builder.addCase(getProductionFloorAndLineApi.fulfilled, (state, action) => {
@@ -186,6 +190,15 @@ export const productSlice = createSlice({
           }
         }
 
+        const totalLine = eff_assembly_line.reduce(
+          (total, item) => total + item.actual,
+          0
+        );
+        const nonZeroActual = eff_assembly_line.filter(
+          (item) => item.actual !== 0
+        );
+        const avgLine = Math.round(totalLine / nonZeroActual.length);
+
         //Stitching
         const eff_stitching_line = [];
         const worker_stitching = worker.stitching;
@@ -220,6 +233,8 @@ export const productSlice = createSlice({
           eff_assembly_line: eff_assembly_line ? eff_assembly_line : {},
           eff_stitching_line: eff_stitching_line ? eff_stitching_line : {},
         };
+
+        // console.log(action.payload.data.floorData[index]);
         //EFF BY THE HOUR LINE
 
         //RFT BY THE HOUR LINE
@@ -245,8 +260,44 @@ export const productSlice = createSlice({
         //Stitching
         //handleFakeTargetHourlyOutPutByLines
       });
-      console.log(action.payload.data);
-      state.production = action.payload.data;
+
+      // action.payload.data?.stopLineData?.reduce((total, current) => {
+      //   // stopLineData.SL_NgungChuyen = Math.round(
+      //   //   stopLineData.SL_NgungChuyen / 4
+      //   // );
+      // });
+
+      let totalStopLineData = Math.round(
+        action.payload.data?.stopLineData?.reduce(
+          (total, current) => total + current.SL_NgungChuyen,
+          0
+        ) / 4
+      );
+
+      action.payload.data?.stopLineData?.map((stopLineData) => {
+        stopLineData.SL_NgungChuyen = Math.round(
+          stopLineData.SL_NgungChuyen / 4
+        );
+      });
+
+      const fakeStopLineData = action.payload.data?.stopLineData
+        ?.map((stopLineData) => {
+          if (totalStopLineData !== 0) {
+            totalStopLineData -= stopLineData.SL_NgungChuyen;
+            return {
+              line: stopLineData.line,
+              SL_NgungChuyen: stopLineData.SL_NgungChuyen,
+            };
+          }
+        })
+        .filter((item) => item);
+
+      // console.log(fakeStopLineData);
+
+      state.production = {
+        ...action.payload.data,
+        stopLineData: fakeStopLineData,
+      };
     });
     builder.addCase(getStopLineTop3.fulfilled, (state, action) => {
       state.stopLineTop3 = action.payload.data;

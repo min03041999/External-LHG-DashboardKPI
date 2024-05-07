@@ -7,14 +7,14 @@ import { Grid, Stack, Button, Box, Typography } from "@mui/material";
 import PDFViewer from "../PDFViewer";
 
 const KAIZEN_MODEL_LHG = [
-  {
-    name: "CAMPUS 00S CF EL I",
-    link: "http://192.168.30.19/dashboard/KaizenCloud/CAMPUS%2000S%20CF%20EL%20I.pdf",
-  },
-  {
-    name: "CAMPUS 00S CF EL C",
-    link: "http://192.168.30.19/dashboard/KaizenCloud/CAMPUS%2000S%20CF%20EL%20C.pdf",
-  },
+  // {
+  //   name: "CAMPUS 00S CF EL I",
+  //   link: "http://192.168.30.19/dashboard/KaizenCloud/CAMPUS%2000S%20CF%20EL%20I.pdf",
+  // },
+  // {
+  //   name: "CAMPUS 00S CF EL C",
+  //   link: "http://192.168.30.19/dashboard/KaizenCloud/CAMPUS%2000S%20CF%20EL%20C.pdf",
+  // },
   {
     name: "CAMPUS 00S",
     link: "http://192.168.30.19/dashboard/KaizenCloud/CAMPUS%2000s.pdf",

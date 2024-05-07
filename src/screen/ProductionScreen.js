@@ -254,6 +254,7 @@ const ProductionScreen = () => {
                       : t("production.output-by-line")
                   }
                   data={production.floorData}
+                  floor={navigate.floor}
                 />
               </Grid>
               <Grid item xs={4}>
@@ -356,6 +357,7 @@ const ProductionScreen = () => {
                           type={"eff"}
                           line={navigate.line}
                           data={production.floorData}
+                          // data={`${getEFF}%`}
                         />
                       </Grid>
                       <Grid item xs={6} sm={6} md={6}>
@@ -367,6 +369,7 @@ const ProductionScreen = () => {
                           }%`}
                           line={navigate.line}
                           data={production.floorData}
+                          // data={`${getRFT}%`}
                           type={"rft"}
                         />
                       </Grid>

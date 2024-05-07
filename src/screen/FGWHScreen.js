@@ -5,11 +5,20 @@ import StatisticsDashboard from "../components/FinishGoodWH/StatisticsDashboard"
 import RepackingReason from "../components/FinishGoodWH/RepackingReason";
 import ShippingSchedule from "../components/FinishGoodWH/ShippingSchedule";
 import FinishedGoodWHEscalation from "../components/FinishGoodWH/FinishedGoodWHEscalation";
-import { fgwhApi } from "../api/FGWH/fgwhApi";
 
 import { useTranslation } from "react-i18next";
+import {
+  getTotalNotFullyImported,
+  getTotalShipped,
+  getTotalWaitingInspection,
+  getTotalWaitingShipment,
+  getTotalWaitingTesting,
+  getMDP,
+  getRepackingReason,
+} from "../redux/feature/finishgood";
+import { useDispatch, useSelector } from "react-redux";
 
-const initialFgwh = {
+const initialData = {
   totalShipped: 0,
   waitingShipment: 0,
   waitingInspection: 0,
@@ -32,8 +41,16 @@ const initialFgwh = {
 
 const FGWHScreen = () => {
   const [screenHeight, setScreenHeight] = useState(window.innerHeight);
-  const [fgwhData, setFgwhData] = useState(initialFgwh);
   const [t] = useTranslation("global");
+  const finishgoodData = useSelector((state) => state.finishgood);
+  const dispatch = useDispatch();
+
+  const storedFgwhData = localStorage.getItem("fgwhData");
+  const fgwhData = storedFgwhData ? JSON.parse(storedFgwhData) : initialData;
+
+  useEffect(() => {
+    localStorage.setItem("fgwhData", JSON.stringify(finishgoodData));
+  }, [finishgoodData]);
 
   useEffect(() => {
     function handleResize() {
@@ -49,24 +66,13 @@ const FGWHScreen = () => {
 
   useEffect(() => {
     const getFinishGoodWH = async () => {
-      let totalShipped = await fgwhApi.getTotalShipped();
-      let waitingShipment = await fgwhApi.getTotalWaitingShipment();
-      let waitingInspection = await fgwhApi.getTotalWaitingInspection();
-      let waitingTesting = await fgwhApi.getTotalWaitingTesting();
-      let notFullyImported = await fgwhApi.getTotalNotFullyImported();
-      let MDP = await fgwhApi.getMDP();
-      let repackingReason = await fgwhApi.getRepackingReason();
-
-      setFgwhData({
-        ...fgwhData,
-        totalShipped: totalShipped.data.data[0].totalShipped,
-        waitingShipment: waitingShipment.data.data[0].waitingShipment,
-        waitingInspection: waitingInspection.data.data[0].waitingInspection,
-        waitingTesting: waitingTesting.data.data[0].waitingTesting,
-        notFullyImported: notFullyImported.data.data[0].notFullyImported,
-        MDP: [...MDP.data.data],
-        repackingReason: { ...repackingReason.data.data },
-      });
+      await dispatch(getTotalShipped());
+      await dispatch(getTotalWaitingShipment());
+      await dispatch(getTotalWaitingInspection());
+      await dispatch(getTotalNotFullyImported());
+      await dispatch(getTotalWaitingTesting());
+      await dispatch(getMDP());
+      await dispatch(getRepackingReason());
     };
     getFinishGoodWH();
   }, []);

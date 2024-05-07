@@ -10,7 +10,7 @@ import ColumnStacked from "../ColumnStacked";
 import { useTranslation } from "react-i18next";
 
 const OutPutByFloor = (props) => {
-  const { customStyle, setHeightChart, header, data } = props;
+  const { customStyle, setHeightChart, header, data, floor } = props;
   const [t] = useTranslation("global");
   const [outPut, setOutPut] = useState([]);
 
@@ -18,7 +18,8 @@ const OutPutByFloor = (props) => {
     const newOutput = [];
 
     data?.forEach((item) => {
-      const totalTarget = item.targetAssembly ? item.targetAssembly : 0;
+      // const totalTarget = item.targetAssembly ? item.targetAssembly : 0;
+      const totalTarget = item.targetAssembly2 ? item.targetAssembly2 : 0;
 
       const totalActual = item.actualAssembly
         ? _.sumBy(
@@ -29,6 +30,8 @@ const OutPutByFloor = (props) => {
         : 0;
 
       const totalRemaining = totalTarget - totalActual;
+
+      // console.log(totalTarget);
 
       newOutput.push({
         target: totalTarget,

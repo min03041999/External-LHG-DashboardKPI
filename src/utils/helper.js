@@ -420,7 +420,7 @@ export const handleFakeTargetHourlyOutPutByLine = (floor) => {
 
 export const handleFakeTargetHourlyOutPutByLines = (line) => {
   if (line.includes("D3-")) {
-    return random(80, 90);
+    return random(80, 100);
   } else {
     return random(130, 150);
   }

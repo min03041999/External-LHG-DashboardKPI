@@ -8,27 +8,47 @@ import { Grid, Typography } from "@mui/material";
 const AnalyzerTotalOutput = (props) => {
   const { customStyle, header, data, titleActual, titleTarget, section, line } =
     props;
-
   const [totalOutput, setTotalOutput] = useState({ actual: "", target: "" });
 
   useMemo(() => {
+    // if (section) {
+    //   setTotalOutput({
+    //     actual: data.actual,
+    //     target: data.target,
+    //   });
+    // } else {
+    //   const totalActualOutPut = Math.round(
+    //     _.sumBy(data, (obj) => obj.totalActualAssembly)
+    //   );
+    //   const totalTargetOutPut = Math.round(
+    //     _.sumBy(data, (obj) => obj.targetAssembly)
+    //   );
+    //   // console.log(totalActualOutPut, totalTargetOutPut);
+    //   setTotalOutput({
+    //     actual: totalActualOutPut,
+    //     target: totalTargetOutPut,
+    //   });
+    // }
+    // console.log(data);
+    let totalActual = 0;
+    let totalTarget = 0;
     if (section) {
       setTotalOutput({
         actual: data.actual,
         target: data.target,
       });
     } else {
-      const totalActualOutPut = Math.round(
-        _.sumBy(data, (obj) => obj.totalActualAssembly)
-      );
-
-      const totalTargetOutPut = Math.round(
-        _.sumBy(data, (obj) => obj.targetAssembly)
-      );
-      // console.log(totalActualOutPut, totalTargetOutPut);
+      data?.map((item) => {
+        const actual = Object.values(item.actualAssembly).reduce(
+          (acc, value) => acc + value,
+          0
+        );
+        totalTarget += item.targetAssembly2;
+        totalActual += actual;
+      });
       setTotalOutput({
-        actual: totalActualOutPut,
-        target: totalTargetOutPut,
+        actual: totalActual,
+        target: totalTarget,
       });
     }
   }, [data, line, section]);
