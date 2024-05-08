@@ -56,7 +56,7 @@ const TotalDowntimeByReason = (props) => {
             <BarChart
               layout="vertical"
               data={transformedData}
-              margin={{ left: 0, right: 10 }}
+              margin={{ left: 0, right: 15 }}
             >
               <XAxis type="number" hide />
               <YAxis
@@ -74,7 +74,8 @@ const TotalDowntimeByReason = (props) => {
                   position="right"
                   fontSize={11}
                   fontWeight={600}
-                  formatter={(value) => `${value} ${titleMinutes}`}
+                  formatter={(value) => `${value}`}
+                  // formatter={(value) => `${value} ${titleMinutes}`}
                 />
               </Bar>
             </BarChart>

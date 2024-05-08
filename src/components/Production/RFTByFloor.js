@@ -50,7 +50,11 @@ const RFTByFloor = (props) => {
       (acc, value) => acc + (value?.data_2 || 0),
       0
     );
-    const avg = sum / (transformedData_RFT?.length || 1);
+
+    const nonZeroData = transformedData_RFT.filter(
+      (item) => item?.data_2 !== 0
+    );
+    const avg = sum / (nonZeroData?.length || 1);
     setRFT(Math.round(avg));
   }, [data]);
 

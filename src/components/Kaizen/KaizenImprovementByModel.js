@@ -62,6 +62,62 @@ const KAIZEN_MODEL_LVL = [
     name: "GAZELLE INDOOR",
     link: "http://192.168.30.19/dashboard/KaizenCloud/LVL%20GAZELLE%20INDOOR.pdf",
   },
+  {
+    name: "A.E. 1",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/LVL%20A.E.%201.pdf",
+  },
+  {
+    name: "ACTIVERIDE 2.0 J",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/LVL%20ACTIVERIDE%202.0%20J.pdf",
+  },
+  {
+    name: "BARRICADE M",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/LVL%20BARRICADE%20M.pdf",
+  },
+  {
+    name: "CLOT GAZELLE BY EC",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/LVL%20CLOT%20GAZELLE%20BY%20EC.pdf",
+  },
+  {
+    name: "CRAZY 98",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/LVL%20CRAZY%2098.pdf",
+  },
+  {
+    name: "D ROSE SON OF CHI",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/LVL%20D%20ROSE%20SON%20OF%20CHI.pdf",
+  },
+  {
+    name: "D.O.N. ISSUE 4",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/LVL%20D.O.N.%20ISSUE%204.pdf",
+  },
+  {
+    name: "EDGE LUX 5",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/LVL%20EDGE%20LUX%205.pdf",
+  },
+  {
+    name: "GAMECOURT 2 M",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/LVL%20GAMECOURT%202%20M.pdf",
+  },
+  {
+    name: "GAZELLE",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/LVL%20GAZELLE.pdf",
+  },
+  {
+    name: "OZWEEGO",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/LVL%20OZWEEGO.pdf",
+  },
+  {
+    name: "PARK ST",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/LVL%20PARK%20ST.pdf",
+  },
+  {
+    name: "PRO BOUNCE 2018",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/LVL%20PRO%20BOUNCE%202018.pdf",
+  },
+  {
+    name: "STABIL 16 W",
+    link: "http://192.168.30.19/dashboard/KaizenCloud/LVL%20STABIL%2016%20W.pdf",
+  },
 ];
 
 const HeaderPDFStyle = {

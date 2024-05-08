@@ -3,7 +3,7 @@ import Card from "../Card";
 import Title from "../Title";
 import ColumnLegendIcon from "../../icons/ColumnLegendIcon";
 import { Box } from "@mui/material";
-import { Bar, BarChart, ResponsiveContainer, XAxis } from "recharts";
+import { Bar, BarChart, LabelList, ResponsiveContainer, XAxis } from "recharts";
 // import { MECHANIC_REPAIRING_TIME } from "../../data";
 
 import { useTranslation } from "react-i18next";
@@ -30,7 +30,7 @@ const MechanicRepairingTime = (props) => {
         // console.log(custom_name);
 
         return {
-          name: item.name,
+          name: custom_name,
           repairingtime: item.repairing,
           waitingtime: item.waiting,
         };
@@ -66,24 +66,40 @@ const MechanicRepairingTime = (props) => {
       </Box>
       <Box>
         <ResponsiveContainer width={"100%"} height={SET_HEIGHT_CHART}>
-          <BarChart data={transformedData}>
+          <BarChart data={transformedData} margin={{ top: 15, bottom: 40 }}>
             <XAxis
               dataKey="name"
               fontSize={11}
               fontWeight={600}
               axisLine={false}
               tickLine={false}
+              angle={90}
+              textAnchor="start"
             />
             <Bar
               dataKey="repairingtime"
               fill="#118dff"
-              label={{ fill: "white", fontWeight: "bold" }}
-            />
+              // label={{ fill: "white", fontWeight: "bold", fontSize: 9 }}
+            >
+              <LabelList
+                dataKey="repairingtime"
+                position="top"
+                fontSize={9}
+                fontWeight={600}
+              />
+            </Bar>
             <Bar
               dataKey="waitingtime"
               fill="#f09538"
-              label={{ fill: "white", fontWeight: "bold" }}
-            />
+              // label={{ fill: "white", fontWeight: "bold", fontSize: 9 }}
+            >
+              <LabelList
+                dataKey="waitingtime"
+                position="top"
+                fontSize={9}
+                fontWeight={600}
+              />
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       </Box>

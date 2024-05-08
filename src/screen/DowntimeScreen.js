@@ -32,7 +32,7 @@ const DowntimeScreen = () => {
   const [downtTimeReason, setDownTimeReason] = useState([]);
   const [mechanicRepairTime, setMechanicRepairTime] = useState([]);
   const [listMechanic, setListMechanic] = useState([]);
-
+  const languages = localStorage.getItem("languages");
   const [changeBreakDown, setChangeBreakDown] = useState(
     t("downtime.breakdown-by-floor")
   );
@@ -134,7 +134,7 @@ const DowntimeScreen = () => {
       setChangeBreakDown(t("downtime.breakdown-by-machine"));
       setChangeMachineDownTime(t("downtime.machine-downtime-by-machine"));
     }
-  }, [navigate, setChangeBreakDown]);
+  }, [navigate, setChangeBreakDown, languages]);
 
   return (
     <Box component={"div"} className="downtime-screen">

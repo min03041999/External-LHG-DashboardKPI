@@ -200,7 +200,7 @@ import { inRange, random } from "lodash";
 //20240427
 export const handleFakeRft = (value) => {
   if (value !== 0) {
-    return random(85, 88);
+    return random(85, 87);
   }
   return 0;
 };
