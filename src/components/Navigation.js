@@ -61,12 +61,27 @@ const Navigation = (props) => {
   useEffect(() => {
     const NavigationFloor = async () => {
       let res = await factoryApi.getFactoryApi();
-      let floorArray = res.data.data?.map((item) => item.floorId) || [];
+      let floorArray =
+        res.data.data?.map((item) => {
+          return {
+            floorId: item.floorId,
+            floorAlias: item.floorAlias,
+          };
+        }) || [];
+
+      // console.log(floorArray);
 
       let addFloor = [
-        t("navigation.auto-cutting"),
-        t("navigation.stockfitting"),
+        {
+          floorId: "Auto Cutting",
+          floorAlias: t("navigation.auto-cutting"),
+        },
+        {
+          floorId: "Stock Fitting",
+          floorAlias: t("navigation.stockfitting"),
+        },
       ];
+
       if (date !== undefined) {
         setFloor([...floorArray, ...[]]);
       } else {
@@ -76,19 +91,15 @@ const Navigation = (props) => {
 
     const NavigationLine = async (navigate) => {
       const { floor } = navigate;
-
       const res = await factoryApi.getFactoryApi();
       const getLine = res.data.data?.filter((item) => item.floorId === floor);
       const lineArray =
         getLine[0]?.lineList?.map((item) => item.lineAlias) || [];
-
       lineArray.sort((a, b) => {
         let numA = parseInt(a.split("-")[1]);
         let numB = parseInt(b.split("-")[1]);
-
         return numA - numB;
       });
-
       setLine(lineArray);
     };
 
@@ -160,13 +171,19 @@ const Navigation = (props) => {
         </div>
         {floor?.map((item, index) => (
           <div
-            style={navigate.floor === item ? ItemActiveStyle : ItemStyle}
+            style={
+              navigate.floor === item.floorId ? ItemActiveStyle : ItemStyle
+            }
             key={index}
             onClick={
-              isState ? () => onActiveFloor(item) : () => console.log("floor")
+              isState
+                ? () => onActiveFloor(item.floorId)
+                : () => console.log("floor")
             }
           >
-            <Typography className="navigation-text">{item}</Typography>
+            <Typography className="navigation-text">
+              {item.floorAlias}
+            </Typography>
           </div>
         ))}
       </Stack>

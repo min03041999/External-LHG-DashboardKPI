@@ -7,18 +7,20 @@ import Title from "../Title";
 const AnalyzerTopLine = (props) => {
   const { customStyle, header, data } = props;
 
-  const isCheck = data?.length !== 0 ? "red" : "green";
+  // const isCheck = data?.length !== 0 ? "red" : "green";
 
-  const checkQuantity = data
-    ?.map((item) => {
-      if (item.SL_NgungChuyen !== 0) {
-        return {
-          line: item.line,
-          SL_NgungChuyen: item.SL_NgungChuyen,
-        };
-      }
-    })
-    .filter((item) => item);
+  // const checkQuantity = data
+  //   ?.map((item) => {
+  //     if (item.SL_NgungChuyen !== 0) {
+  //       return {
+  //         line: item.line,
+  //         SL_NgungChuyen: item.SL_NgungChuyen,
+  //       };
+  //     }
+  //   })
+  //   .filter((item) => item);
+  const isCheck = [].length !== 0 ? "red" : "green";
+  const checkQuantity = [];
 
   // console.log(checkQuantity);
 

@@ -7,7 +7,7 @@ import { Bar, BarChart, LabelList, ResponsiveContainer, XAxis } from "recharts";
 const ChartByDowntime = (props) => {
   const { customStyle, header, setHeightChart, data, titleTotal, subTitle } =
     props;
-  console.log(data);
+  // console.log(data);
   return (
     <Card customStyle={customStyle}>
       <Box

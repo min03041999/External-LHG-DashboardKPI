@@ -89,7 +89,9 @@ const StoplineTop3Defect = (props) => {
         </span>
       ),
       action_name: item.Action_Plan,
-      picture: item.Picture,
+      picture: item.Picture
+        ? `http://192.168.30.19:5000/qip-defect-photos/` + item.Picture
+        : null,
     };
   });
 

@@ -178,22 +178,22 @@ const SideBar = (props) => {
       text: t("sidebar.downtime"),
       path: "/downtime",
     },
-    // {
-    //   icon: (
-    //     <img
-    //       src={Icon_Quality_Tracking}
-    //       alt="icon"
-    //       width={30}
-    //       height={30}
-    //       style={{
-    //         objectFit: "cover",
-    //         filter: "drop-shadow(2px 4px 6px black)",
-    //       }}
-    //     />
-    //   ),
-    //   text: t("sidebar.quality-tracking"),
-    //   path: "/quality-tracking",
-    // },
+    {
+      icon: (
+        <img
+          src={Icon_Quality_Tracking}
+          alt="icon"
+          width={30}
+          height={30}
+          style={{
+            objectFit: "cover",
+            filter: "drop-shadow(2px 4px 6px black)",
+          }}
+        />
+      ),
+      text: t("sidebar.quality-tracking"),
+      path: "/quality-tracking",
+    },
   ];
 
   const sidebarWidth = open ? "250px" : "75px";

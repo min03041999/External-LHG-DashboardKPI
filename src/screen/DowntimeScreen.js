@@ -25,6 +25,8 @@ const DowntimeScreen = () => {
     section: "",
   });
 
+  // console.log(navigate);
+
   const [isState, setIsState] = useState(false);
   const [breakDownTime, setBreakDownTime] = useState([]);
   const [breakDownMinutes, setBreakDownMinutes] = useState([]);
@@ -90,6 +92,18 @@ const DowntimeScreen = () => {
       setIsState(true);
     };
 
+    // let fakeNavigate = navigate;
+    // if (navigate.floor === t("navigation.auto-cutting")) {
+    //   fakeNavigate.floor = "Auto Cutting";
+    // }
+
+    // if (navigate.floor === t("navigation.stockfitting")) {
+    //   // console.log(navigate.floor);
+    //   fakeNavigate.floor = "Stock Fitting";
+    // }
+
+    // console.log(navigate);
+
     setTimeout(() => {
       getBreakDownTimes(navigate);
     }, 1000);
@@ -134,7 +148,7 @@ const DowntimeScreen = () => {
       setChangeBreakDown(t("downtime.breakdown-by-machine"));
       setChangeMachineDownTime(t("downtime.machine-downtime-by-machine"));
     }
-  }, [navigate, setChangeBreakDown, languages]);
+  }, [navigate, setChangeBreakDown, languages, t]);
 
   return (
     <Box component={"div"} className="downtime-screen">
